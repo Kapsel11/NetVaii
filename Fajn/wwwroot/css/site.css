@@ -105,6 +105,10 @@ i {
     text-transform: uppercase;
 }
 
-a{
-    
+.search-input {
+    padding-top: 40px;
+}
+
+.gee {
+    height: 50px;
 }

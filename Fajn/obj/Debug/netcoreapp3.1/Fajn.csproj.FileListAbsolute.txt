@@ -162,4 +162,5 @@ C:\Users\thedj\source\repos\Fajn\Fajn\bin\Debug\netcoreapp3.1\ru\Microsoft.CodeA
 C:\Users\thedj\source\repos\Fajn\Fajn\bin\Debug\netcoreapp3.1\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\thedj\source\repos\Fajn\Fajn\bin\Debug\netcoreapp3.1\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\thedj\source\repos\Fajn\Fajn\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:\Users\thedj\source\repos\Fajn\Fajn\obj\Debug\netcoreapp3.1\Razor\Views\Jokes\ShowSearchForm.cshtml.g.cs
+C:\Users\thedj\source\repos\Fajn\Fajn\obj\Debug\netcoreapp3.1\Razor\Views\Game\ShowSearchForm.cshtml.g.cs
+C:\Users\thedj\source\repos\Fajn\Fajn\obj\Debug\netcoreapp3.1\Razor\Views\Game\CreateGame.cshtml.g.cs

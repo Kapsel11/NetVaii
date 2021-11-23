@@ -2,7 +2,7 @@
 
 namespace Fajn.Models
 {
-    public class Joke
+    public class Game
     {
         [Key]
         public int GameId { get; set; }
@@ -12,7 +12,7 @@ namespace Fajn.Models
         public string Date { get; set; }
         public string Event { get; set; }
 
-        public Joke()
+        public Game()
         {
 
         }

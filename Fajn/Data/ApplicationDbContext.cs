@@ -13,6 +13,6 @@ namespace Fajn.Data
             : base(options)
         {
         }
-        public DbSet<Fajn.Models.Joke> Joke { get; set; }
+        public DbSet<Fajn.Models.Game> Joke { get; set; }
     }
 }

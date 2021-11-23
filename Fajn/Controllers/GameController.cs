@@ -10,11 +10,11 @@ using Fajn.Models;
 
 namespace Fajn.Controllers
 {
-    public class JokesController : Controller
+    public class GameController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public JokesController(ApplicationDbContext context)
+        public GameController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -27,6 +27,11 @@ namespace Fajn.Controllers
 
         // GET: Jokes
         public async Task<IActionResult> ShowSearchForm()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> CreateGame()
         {
             return View();
         }
@@ -60,7 +65,7 @@ namespace Fajn.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,About")] Joke joke)
+        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,About")] Game joke)
         {
             if (ModelState.IsValid)
             {
@@ -92,7 +97,7 @@ namespace Fajn.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,About")] Joke joke)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,About")] Game joke)
         {
             if (id != joke.GameId)
             {
