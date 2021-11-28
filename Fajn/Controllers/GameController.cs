@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Fajn.Data;
 using Fajn.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 
 namespace Fajn.Controllers
 {
@@ -22,7 +24,7 @@ namespace Fajn.Controllers
         // GET: Jokes
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Joke.ToListAsync());
+            return View(await _context.Games.ToListAsync());
         }
 
         // GET: Jokes
@@ -31,6 +33,7 @@ namespace Fajn.Controllers
             return View();
         }
 
+        [Authorize]
         public async Task<IActionResult> CreateGame()
         {
             return View();
@@ -44,7 +47,7 @@ namespace Fajn.Controllers
                 return NotFound();
             }
 
-            var joke = await _context.Joke
+            var joke = await _context.Games
                 .FirstOrDefaultAsync(m => m.GameId == id);
             if (joke == null)
             {
@@ -54,26 +57,24 @@ namespace Fajn.Controllers
             return View(joke);
         }
 
-        // GET: Jokes/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
         // POST: Jokes/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,About")] Game joke)
+        public async Task<IActionResult> Create([Bind("GameId,White,Black,Result,Date,Event")] Game game, IFormFile pgn)
         {
+            if (pgn == null)
+                ModelState.AddModelError(nameof(game.Pgn), "Please select pgn file");
+
             if (ModelState.IsValid)
             {
-                _context.Add(joke);
+                _context.Add(game);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                // return RedirectToAction(nameof(Index));
+                return View(nameof(CreateGame));
             }
-            return View(joke);
+            return View(game);
         }
 
         // GET: Jokes/Edit/5
@@ -84,12 +85,12 @@ namespace Fajn.Controllers
                 return NotFound();
             }
 
-            var joke = await _context.Joke.FindAsync(id);
-            if (joke == null)
+            var game = await _context.Games.FindAsync(id);
+            if (game == null)
             {
                 return NotFound();
             }
-            return View(joke);
+            return View(game);
         }
 
         // POST: Jokes/Edit/5
@@ -97,9 +98,9 @@ namespace Fajn.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,About")] Game joke)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,About")] Game game)
         {
-            if (id != joke.GameId)
+            if (id != game.GameId)
             {
                 return NotFound();
             }
@@ -108,12 +109,12 @@ namespace Fajn.Controllers
             {
                 try
                 {
-                    _context.Update(joke);
+                    _context.Update(game);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!JokeExists(joke.GameId))
+                    if (!JokeExists(game.GameId))
                     {
                         return NotFound();
                     }
@@ -124,7 +125,7 @@ namespace Fajn.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(joke);
+            return View(game);
         }
 
         // GET: Jokes/Delete/5
@@ -135,14 +136,14 @@ namespace Fajn.Controllers
                 return NotFound();
             }
 
-            var joke = await _context.Joke
+            var game = await _context.Games
                 .FirstOrDefaultAsync(m => m.GameId == id);
-            if (joke == null)
+            if (game == null)
             {
                 return NotFound();
             }
 
-            return View(joke);
+            return View(game);
         }
 
         // POST: Jokes/Delete/5
@@ -150,15 +151,15 @@ namespace Fajn.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var joke = await _context.Joke.FindAsync(id);
-            _context.Joke.Remove(joke);
+            var game = await _context.Games.FindAsync(id);
+            _context.Games.Remove(game);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool JokeExists(int id)
         {
-            return _context.Joke.Any(e => e.GameId == id);
+            return _context.Games.Any(e => e.GameId == id);
         }
     }
 }

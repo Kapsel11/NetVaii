@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace Fajn.Models
 {
@@ -11,7 +12,9 @@ namespace Fajn.Models
         public string Result { get; set; }
         public string Date { get; set; }
         public string Event { get; set; }
+        public string Pgn { get; set; }
 
+        public IdentityUser user { get; set; }
         public Game()
         {
 

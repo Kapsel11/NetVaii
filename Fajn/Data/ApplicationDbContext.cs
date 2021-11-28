@@ -12,7 +12,8 @@ namespace Fajn.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
+
         }
-        public DbSet<Fajn.Models.Game> Joke { get; set; }
+        public DbSet<Game> Games { get; set; }
     }
 }
