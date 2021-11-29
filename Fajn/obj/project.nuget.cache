@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "0giIq7dBmz/q9fuCIzCSPI3oTltB0pJL05Rh8P53oSocs5bWO64MW1unn7DzBhn5/HennUAPSN7pZw/vDlW29g==",
+  "dgSpecHash": "xR20VXQ53fxZDieQJQuiucW+IPZWJH44XfRLy1yPK+H76HsOzbxJCUv6TVsviIIlbvMhAdLiXn9mOiE8OvS97w==",
   "success": true,
-  "projectFilePath": "C:\\Users\\thedj\\source\\repos\\Fajn\\Fajn\\Fajn.csproj",
+  "projectFilePath": "C:\\Users\\thedj\\Source\\Repos\\Kapsel11\\NetVaii\\Fajn\\Fajn.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\thedj\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\3.1.17\\microsoft.aspnetcore.cryptography.internal.3.1.17.nupkg.sha512",
     "C:\\Users\\thedj\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\3.1.17\\microsoft.aspnetcore.cryptography.keyderivation.3.1.17.nupkg.sha512",

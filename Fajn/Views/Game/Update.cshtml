@@ -1,0 +1,51 @@
+﻿@model Fajn.Models.Game
+
+<h4>Add Game</h4>
+<p>User added chess games to our database will be added but tagged as user-created with lower search priority.</p>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Update" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="White" class="control-label"></label>
+                <input asp-for="White" class="form-control" required/>
+                <span asp-validation-for="White" class="text-danger" ></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Black" class="control-label"></label>
+                <input asp-for="Black" class="form-control" required/>
+                <span asp-validation-for="Black" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Result" class="control-label"></label>
+                <input asp-for="Result" class="form-control" required/>
+                <span asp-validation-for="Result" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Date" class="control-label"></label>
+                <input asp-for="Date" class="form-control" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Event" class="control-label"></label>
+                <input asp-for="Event" class="form-control" />
+                <span asp-validation-for="Event" class="text-danger"></span>
+            </div>
+             <div class="form-group no-border">
+                <label asp-for="Pgn" class="control-label">Your chess file (.pgn)</label>
+                <input type="file" asp-for="Pgn" class="form-control no-border" accept=".pgn" required/>
+                <span asp-validation-for="Pgn" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Update" class="btn btn-primary wid" />
+            </div>
+                        <input hidden asp-for=GameId/>
+            </form>
+    </div>
+</div>
+            <hr />
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

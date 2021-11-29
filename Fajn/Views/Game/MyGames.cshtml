@@ -1,6 +1,5 @@
 ﻿@model IEnumerable<Game>
  
-
 <body>
     <h4>My Games</h4>
     <table class="table">
@@ -13,6 +12,8 @@
             <th scope="col">Date</th>
             <th scope="col">Event</th>
             <th scope="col">PGN</th>
+            <th scope="col">Update</th>
+            <th scope="col">Delete</th>
           </tr>
         </thead>
         <tbody>
@@ -26,6 +27,8 @@
            <td>@game.Event</td>
            <td>@game.Date</td>           
            <td><a href="@game.Pgn" target="_blank">Download</a></td>
+           <td><a class="btn btn-sm btn-primary" asp-action="Update" asp-route-ID="@game.GameId">Update</a></td>
+           <td><a class="btn btn-sm btn-primary" asp-action="Delete" asp-route-ID="@game.GameId">Delete</a></td>
           </tr>
          }
         </tbody>

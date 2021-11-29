@@ -8847,11 +8847,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\thedj\\source\\repos\\Fajn\\Fajn\\Fajn.csproj",
+      "projectUniqueName": "C:\\Users\\thedj\\Source\\Repos\\Kapsel11\\NetVaii\\Fajn\\Fajn.csproj",
       "projectName": "Fajn",
-      "projectPath": "C:\\Users\\thedj\\source\\repos\\Fajn\\Fajn\\Fajn.csproj",
+      "projectPath": "C:\\Users\\thedj\\Source\\Repos\\Kapsel11\\NetVaii\\Fajn\\Fajn.csproj",
       "packagesPath": "C:\\Users\\thedj\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\thedj\\source\\repos\\Fajn\\Fajn\\obj\\",
+      "outputPath": "C:\\Users\\thedj\\Source\\Repos\\Kapsel11\\NetVaii\\Fajn\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\thedj\\AppData\\Roaming\\NuGet\\NuGet.Config",

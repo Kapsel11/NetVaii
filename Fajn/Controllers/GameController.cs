@@ -99,10 +99,10 @@ namespace Fajn.Controllers
                 _context.Add(game);
                 await _context.SaveChangesAsync();
                 // return RedirectToAction(nameof(Index));
-                return View(nameof(CreateGame));
+                return View(nameof(ShowSearchForm));
             }
 
-            return View(nameof(CreateGame));
+            return View(nameof(ShowSearchForm));
         }
 
         [Authorize]
@@ -118,7 +118,63 @@ namespace Fajn.Controllers
             return View(await games.ToListAsync());
         }
 
-        // GET: Jokes/Edit/5
+
+
+        // GET: Jokes/Edit/5 [HttpPost]
+        public async Task<IActionResult> Update(int? id)
+        {
+            Game f = _context.Games.Find(id);
+            return View(f);
+        }
+
+        public async Task<IActionResult> Delete(int? id) // PRIDAT OSETRENIE
+        {
+            Game pom = _context.Games.Find(id);
+            _context.Entry(pom).State = EntityState.Deleted;
+            _context.Remove(pom);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(MyGames));
+        }
+
+       [Authorize]
+       [HttpPost]
+        public async Task<IActionResult> Update(Game game, IFormFile pgn, int id)
+        {
+            Game pom = _context.Games.Find(id);
+            _context.Entry(pom).State = EntityState.Deleted;
+            game.GameId = pom.GameId;
+            _context.Remove(pom);
+
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            string path = "Pgn/" + user.UserName + "/" + pgn.FileName;
+
+            string dir = "Pgn/" + user.UserName;
+
+            if (pgn == null)
+                ModelState.AddModelError(nameof(game.Pgn), "Please select pgn file");
+            else
+            {
+                game.Pgn = "~/" + path;
+                game.user = user;
+                Directory.CreateDirectory(Path.Combine(hostingEnvironment.WebRootPath, dir));
+            }
+
+            //if (ModelState.IsValid)
+            {
+                using (var stream = new System.IO.FileStream(Path.Combine(hostingEnvironment.WebRootPath, path), FileMode.Create))
+                {
+                    await pgn.CopyToAsync(stream);
+                }
+                _context.Update(game);
+                await _context.SaveChangesAsync();
+                // return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(MyGames));
+            }
+
+            return RedirectToAction(nameof(MyGames));
+        }
+
+
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -166,24 +222,6 @@ namespace Fajn.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(game);
-        }
-
-        // GET: Jokes/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var game = await _context.Games
-                .FirstOrDefaultAsync(m => m.GameId == id);
-            if (game == null)
-            {
-                return NotFound();
-            }
-
             return View(game);
         }
 
