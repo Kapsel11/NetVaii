@@ -9,16 +9,27 @@ using Fajn.Data;
 using Fajn.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
+using Microsoft.Extensions.Hosting.Internal;
 
 namespace Fajn.Controllers
 {
     public class GameController : Controller
     {
+        private static int fajl = 0;
         private readonly ApplicationDbContext _context;
+        private IWebHostEnvironment hostingEnvironment;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly UserManager<Microsoft.AspNetCore.Identity.IdentityUser> _userManager;
 
-        public GameController(ApplicationDbContext context)
+        public GameController(ApplicationDbContext context, IWebHostEnvironment environment, UserManager<Microsoft.AspNetCore.Identity.IdentityUser> userManager)
         {
+            hostingEnvironment = environment;
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Jokes
@@ -62,18 +73,43 @@ namespace Fajn.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("GameId,White,Black,Result,Date,Event")] Game game, IFormFile pgn)
+        [Authorize]
+        public async Task<IActionResult> Create(Game game, IFormFile pgn)
         {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            string path = "Pgn/" + user.UserName + "/" + pgn.FileName;
+
+            string dir = "Pgn/" + user.UserName;
+
             if (pgn == null)
                 ModelState.AddModelError(nameof(game.Pgn), "Please select pgn file");
-
-            if (ModelState.IsValid)
+            else
             {
+                game.Pgn = "~/" + path;
+                game.user = user; 
+                Directory.CreateDirectory(Path.Combine(hostingEnvironment.WebRootPath, dir));
+            }
+
+            //if (ModelState.IsValid)
+            {
+                using (var stream = new System.IO.FileStream(Path.Combine(hostingEnvironment.WebRootPath, path), FileMode.Create))
+                {
+                    await pgn.CopyToAsync(stream);
+                }
                 _context.Add(game);
                 await _context.SaveChangesAsync();
                 // return RedirectToAction(nameof(Index));
                 return View(nameof(CreateGame));
             }
+
+            return View(nameof(CreateGame));
+        }
+
+        [Authorize]
+        public async Task<IActionResult> MyGames()
+        {
+            List<Game> game = (from customer in this._context.Games.Take(10)
+                                        select customer).ToList();
             return View(game);
         }
 

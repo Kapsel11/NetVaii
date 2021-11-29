@@ -1,0 +1,34 @@
+﻿@model IEnumerable<Game>
+ 
+
+<body>
+    <h4>My Games</h4>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">GameID</th>
+            <th scope="col">White</th>
+            <th scope="col">Black</th>
+            <th scope="col">Result</th>
+            <th scope="col">Date</th>
+            <th scope="col">Event</th>
+            <th scope="col">PGN</th>
+          </tr>
+        </thead>
+        <tbody>
+         @foreach (Game game in Model)
+         {
+          <tr>
+           <th scope="row">@game.GameId</th>
+           <td>@game.White</td>
+           <td>@game.Black</td>
+           <td>@game.Result</td>
+           <td>@game.Event</td>
+           <td>@game.Date</td>           
+           <td><a href="@game.Pgn" target="_blank">Download</a></td>
+          </tr>
+         }
+        </tbody>
+       
+    </table>
+</body>
