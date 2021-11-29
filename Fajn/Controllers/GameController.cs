@@ -108,9 +108,14 @@ namespace Fajn.Controllers
         [Authorize]
         public async Task<IActionResult> MyGames()
         {
-            List<Game> game = (from customer in this._context.Games.Take(10)
-                                        select customer).ToList();
-            return View(game);
+           // List<Game> game = (from customer in this._context.Games.Take(10)
+            //                            select customer).ToList();
+
+            var games = from g in _context.Games select g;
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            games = games.Where(s => s.user.Equals(user));
+
+            return View(await games.ToListAsync());
         }
 
         // GET: Jokes/Edit/5
