@@ -1,0 +1,27 @@
+﻿@model Fajn.Models.AllGames
+
+
+
+<body>
+
+    <h4>Find a Game</h4>
+    <form asp-action="Find" enctype="multipart/form-data" method="POST">
+              <div class="input-group rounded search-input">
+                  <input type="text" name="SearchString" class="form-control rounded gee" placeholder="Search for" aria-label="Search"
+                  aria-describedby="search-addon" />
+                   <select class="selectpicker" name="Option">
+                    <option value="0">Player</option>
+                    <option value="1">Result</option>
+                    <option value="2">Event</option>
+                   </select>
+              <div class="input-group-text border-0 btn btn-sm btn-primary ">
+                <input type="submit" value="Find" class="btn btn-primary" />
+               </div>
+
+           </div>
+    </form>
+</body>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

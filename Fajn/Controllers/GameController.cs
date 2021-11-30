@@ -14,6 +14,7 @@ using System.IO;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using Microsoft.Extensions.Hosting.Internal;
+using Fajn.Other;
 
 namespace Fajn.Controllers
 {
@@ -32,16 +33,9 @@ namespace Fajn.Controllers
             _userManager = userManager;
         }
 
-        // GET: Jokes
         public async Task<IActionResult> Index()
         {
             return View(await _context.Games.ToListAsync());
-        }
-
-        // GET: Jokes
-        public async Task<IActionResult> ShowSearchForm()
-        {
-            return View();
         }
 
         [Authorize]
@@ -50,7 +44,6 @@ namespace Fajn.Controllers
             return View();
         }
 
-        // GET: Jokes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -68,9 +61,7 @@ namespace Fajn.Controllers
             return View(joke);
         }
 
-        // POST: Jokes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
@@ -99,16 +90,16 @@ namespace Fajn.Controllers
                 _context.Add(game);
                 await _context.SaveChangesAsync();
                 // return RedirectToAction(nameof(Index));
-                return View(nameof(ShowSearchForm));
+               return RedirectToAction(nameof(MyGames));
             }
 
-            return View(nameof(ShowSearchForm));
+            return RedirectToAction(nameof(MyGames));
         }
 
         [Authorize]
         public async Task<IActionResult> MyGames()
         {
-           // List<Game> game = (from customer in this._context.Games.Take(10)
+            // List<Game> game = (from customer in this._context.Games.Take(10)
             //                            select customer).ToList();
 
             var games = from g in _context.Games select g;
@@ -118,9 +109,6 @@ namespace Fajn.Controllers
             return View(await games.ToListAsync());
         }
 
-
-
-        // GET: Jokes/Edit/5 [HttpPost]
         public async Task<IActionResult> Update(int? id)
         {
             Game f = _context.Games.Find(id);
@@ -190,9 +178,6 @@ namespace Fajn.Controllers
             return View(game);
         }
 
-        // POST: Jokes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,About")] Game game)
@@ -225,7 +210,7 @@ namespace Fajn.Controllers
             return View(game);
         }
 
-        // POST: Jokes/Delete/5
+      
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

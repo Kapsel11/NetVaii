@@ -1,0 +1,38 @@
+﻿@model IEnumerable<AllGames>
+
+<body>
+    <h4>All Games</h4>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">GameID</th>
+            <th scope="col">White</th>
+            <th scope="col">Black</th>
+            <th scope="col">Result</th>
+            <th scope="col">Date</th>
+            <th scope="col">Event</th>
+            <th scope="col">PGN</th>
+            <th scope="col">Update</th>
+            <th scope="col">Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+         @foreach (AllGames game in Model)
+         {
+          <tr>
+           <th scope="row">@game.GameId</th>
+           <td>@game.White</td>
+           <td>@game.Black</td>
+           <td>@game.Result</td>
+           <td>@game.Event</td>
+           <td>@game.Date</td>           
+           <td><a href="@game.Pgn" target="_blank">Download</a></td>
+           <td><a class="btn btn-sm btn-primary" asp-action="Update" asp-route-ID="@game.GameId">Update</a></td>
+           <td><a class="btn btn-sm btn-primary" asp-action="Delete" asp-route-ID="@game.GameId">Delete</a></td>
+          </tr>
+         }
+        </tbody>
+       
+    </table>
+</body>
+

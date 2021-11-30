@@ -118,3 +118,15 @@ i {
 .wid {
     width: 350px;
 }
+
+
+#Slider {
+    opacity: 1.0; 
+}
+    #Slider div {
+        display: none;
+    }
+
+    #Slider #image1 {
+        display: block;
+    }
