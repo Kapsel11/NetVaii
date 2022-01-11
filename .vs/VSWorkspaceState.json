@@ -1,12 +1,15 @@
 {
   "ExpandedNodes": [
     "",
+    "\\Fajn",
     "\\Fajn\\Controllers",
     "\\Fajn\\Models",
     "\\Fajn\\Views",
     "\\Fajn\\Views\\AllGames",
-    "\\Fajn\\Views\\Shared"
+    "\\Fajn\\Views\\Shared",
+    "\\Fajn\\wwwroot",
+    "\\Fajn\\wwwroot\\js"
   ],
-  "SelectedNode": "\\Fajn.sln",
+  "SelectedNode": "\\Fajn\\Models\\Game.cs",
   "PreviewInSolutionExplorer": false
 }

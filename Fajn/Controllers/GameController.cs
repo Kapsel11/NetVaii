@@ -81,17 +81,14 @@ namespace Fajn.Controllers
                 Directory.CreateDirectory(Path.Combine(hostingEnvironment.WebRootPath, dir));
             }
 
-            //if (ModelState.IsValid)
-            {
+         
                 using (var stream = new System.IO.FileStream(Path.Combine(hostingEnvironment.WebRootPath, path), FileMode.Create))
                 {
                     await pgn.CopyToAsync(stream);
                 }
                 _context.Add(game);
                 await _context.SaveChangesAsync();
-                // return RedirectToAction(nameof(Index));
                return RedirectToAction(nameof(MyGames));
-            }
 
             return RedirectToAction(nameof(MyGames));
         }
@@ -99,9 +96,6 @@ namespace Fajn.Controllers
         [Authorize]
         public async Task<IActionResult> MyGames()
         {
-            // List<Game> game = (from customer in this._context.Games.Take(10)
-            //                            select customer).ToList();
-
             var games = from g in _context.Games select g;
             var user = await _userManager.GetUserAsync(HttpContext.User);
             games = games.Where(s => s.user.Equals(user));
@@ -131,9 +125,12 @@ namespace Fajn.Controllers
             Game pom = _context.Games.Find(id);
             _context.Entry(pom).State = EntityState.Deleted;
             game.GameId = pom.GameId;
+            game.Pgn = pom.Pgn;
             _context.Remove(pom);
 
             var user = await _userManager.GetUserAsync(HttpContext.User);
+            // PGN UKLADANIE
+           /* 
             string path = "Pgn/" + user.UserName + "/" + pgn.FileName;
 
             string dir = "Pgn/" + user.UserName;
@@ -147,17 +144,14 @@ namespace Fajn.Controllers
                 Directory.CreateDirectory(Path.Combine(hostingEnvironment.WebRootPath, dir));
             }
 
-            //if (ModelState.IsValid)
-            {
                 using (var stream = new System.IO.FileStream(Path.Combine(hostingEnvironment.WebRootPath, path), FileMode.Create))
                 {
                     await pgn.CopyToAsync(stream);
                 }
+           */
                 _context.Update(game);
                 await _context.SaveChangesAsync();
-                // return RedirectToAction(nameof(Index));
                 return RedirectToAction(nameof(MyGames));
-            }
 
             return RedirectToAction(nameof(MyGames));
         }

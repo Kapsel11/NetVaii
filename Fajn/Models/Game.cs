@@ -15,7 +15,7 @@ namespace Fajn.Models
         public string Result { get; set; }
         public string Date { get; set; }
         public string Event { get; set; }
-        [Required]
+        //[Required]
         public string Pgn { get; set; }
 
         public IdentityUser user { get; set; }

@@ -9,8 +9,8 @@
             <th scope="col">White</th>
             <th scope="col">Black</th>
             <th scope="col">Result</th>
-            <th scope="col">Date</th>
             <th scope="col">Event</th>
+            <th scope="col">Date</th>
             <th scope="col">PGN</th>
             <th scope="col">Update</th>
             <th scope="col">Delete</th>
@@ -28,7 +28,7 @@
            <td>@game.Date</td>           
            <td><a href="@game.Pgn" target="_blank">Download</a></td>
            <td><a class="btn btn-sm btn-primary" asp-action="Update" asp-route-ID="@game.GameId">Update</a></td>
-           <td><a class="btn btn-sm btn-primary" asp-action="Delete" asp-route-ID="@game.GameId">Delete</a></td>
+           <td><a class="btn btn-sm btn-primary" asp-action="Delete" onclick="return confirm('Are you sure you want to delete this game? (GameID = @game.GameId)')" asp-route-ID="@game.GameId">Delete</a></td>
           </tr>
          }
         </tbody>
