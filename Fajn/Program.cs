@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Fajn.Other;
 
 namespace Fajn
 {
@@ -13,6 +14,8 @@ namespace Fajn
     {
         public static void Main(string[] args)
         {
+            //SampleInsert sampleInsert = new SampleInsert();
+            //sampleInsert.InsertData();
             CreateHostBuilder(args).Build().Run();
         }
 

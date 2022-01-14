@@ -1,4 +1,4 @@
-﻿@model Fajn.Models.Game
+﻿@model Fajn.ViewModels.GameCreateGameViewModel
 
 <h4>Add Game</h4>
 <hr />
@@ -27,9 +27,11 @@
                 <span asp-validation-for="Date" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Event" class="control-label"></label>
-                <input asp-for="Event" class="form-control" />
-                <span asp-validation-for="Event" class="text-danger"></span>
+                 <label asp-for="Events" class="control-label">Event</label>
+                 <select id="drpEmpList" class="form-control" asp-for="EventId" asp-items="@(new SelectList(Model.Events, "EventId", "EventName" ))">  
+                    <option value="">--Select--</option>  
+                </select>  
+                <input type="hidden" asp-for="EventId" />  
             </div>
              <div class="form-group no-border">
                 <label asp-for="Pgn" class="control-label">Your chess file (.pgn)</label>

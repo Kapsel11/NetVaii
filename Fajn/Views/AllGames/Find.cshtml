@@ -1,4 +1,4 @@
-﻿@model IEnumerable<AllGames>
+﻿@model IEnumerable<Fajn.ViewModels.AllGamesFindViewModel>
 
 <body>
     <h4>All Games</h4>
@@ -15,14 +15,14 @@
           </tr>
         </thead>
         <tbody>
-         @foreach (AllGames game in Model)
+         @foreach (Fajn.ViewModels.AllGamesFindViewModel game in Model)
          {
           <tr>
            <th scope="row">@game.GameId</th>
            <td>@game.White</td>
            <td>@game.Black</td>
            <td>@game.Result</td>
-           <td>@game.Event</td>
+           <td>@game.EventName</td>
            <td>@game.Date</td>           
            <td><a href="@game.Pgn" target="_blank">Download</a></td>
           </tr>

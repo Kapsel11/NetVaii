@@ -3,13 +3,8 @@
     "",
     "\\Fajn",
     "\\Fajn\\Controllers",
-    "\\Fajn\\Models",
-    "\\Fajn\\Views",
-    "\\Fajn\\Views\\AllGames",
-    "\\Fajn\\Views\\Shared",
-    "\\Fajn\\wwwroot",
-    "\\Fajn\\wwwroot\\js"
+    "\\Fajn\\Data"
   ],
-  "SelectedNode": "\\Fajn\\Models\\Game.cs",
+  "SelectedNode": "\\Fajn.sln",
   "PreviewInSolutionExplorer": false
 }

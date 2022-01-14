@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using Microsoft.Extensions.Hosting.Internal;
 using Fajn.Other;
+using Fajn.ViewModels;
 
 namespace Fajn.Controllers
 {
@@ -41,7 +42,10 @@ namespace Fajn.Controllers
         [Authorize]
         public async Task<IActionResult> CreateGame()
         {
-            return View();
+            GameCreateGameViewModel model = new GameCreateGameViewModel();
+            model.Events = await _context.Event.ToListAsync();
+            return View(model);
+
         }
 
         public async Task<IActionResult> Details(int? id)
@@ -61,12 +65,12 @@ namespace Fajn.Controllers
             return View(joke);
         }
 
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<IActionResult> Create(Game game, IFormFile pgn)
+        public async Task<IActionResult> Create(GameCreateGameViewModel game, IFormFile pgn)
         {
+            Game nova = new Game();
             var user = await _userManager.GetUserAsync(HttpContext.User);
             string path = "Pgn/" + user.UserName + "/" + pgn.FileName;
 
@@ -76,22 +80,27 @@ namespace Fajn.Controllers
                 ModelState.AddModelError(nameof(game.Pgn), "Please select pgn file");
             else
             {
-                game.Pgn = "~/" + path;
-                game.user = user; 
+                nova.Pgn = "~/" + path;
+                nova.user = user;
+                nova.Date = game.Date;
+                nova.White = game.White;
+                nova.Black = game.Black;
+                nova.EventId = game.EventId;
+                nova.Result = game.Result;
                 Directory.CreateDirectory(Path.Combine(hostingEnvironment.WebRootPath, dir));
             }
 
-         
                 using (var stream = new System.IO.FileStream(Path.Combine(hostingEnvironment.WebRootPath, path), FileMode.Create))
                 {
                     await pgn.CopyToAsync(stream);
                 }
-                _context.Add(game);
+                _context.Add(nova);
                 await _context.SaveChangesAsync();
                return RedirectToAction(nameof(MyGames));
 
             return RedirectToAction(nameof(MyGames));
         }
+
 
         [Authorize]
         public async Task<IActionResult> MyGames()
@@ -100,7 +109,31 @@ namespace Fajn.Controllers
             var user = await _userManager.GetUserAsync(HttpContext.User);
             games = games.Where(s => s.user.Equals(user));
 
-            return View(await games.ToListAsync());
+             var events = await _context.Event.ToListAsync();
+
+
+            List<AllGamesFindViewModel> newList = new List<AllGamesFindViewModel>();
+            foreach (var item in games)
+            {
+                string EventName = new string("");
+                if(item.EventId != null)
+                {
+                     EventName = events.Where(s => s.EventId.Equals(item.EventId)).FirstOrDefault().EventName;
+                }
+                AllGamesFindViewModel listItem = new AllGamesFindViewModel();
+                listItem.GameId = item.GameId;
+                listItem.White = item.White;
+                listItem.Black = item.Black;
+                listItem.Result = item.Result;
+                listItem.EventName = EventName;
+                listItem.Date = item.Date;
+                listItem.Pgn = item.Pgn;
+
+                newList.Add(listItem);
+            }
+
+            return View(newList);
+
         }
 
         public async Task<IActionResult> Update(int? id)
@@ -109,7 +142,7 @@ namespace Fajn.Controllers
             return View(f);
         }
 
-        public async Task<IActionResult> Delete(int? id) // PRIDAT OSETRENIE
+        public async Task<IActionResult> Delete(int? id) 
         {
             Game pom = _context.Games.Find(id);
             _context.Entry(pom).State = EntityState.Deleted;
@@ -129,31 +162,10 @@ namespace Fajn.Controllers
             _context.Remove(pom);
 
             var user = await _userManager.GetUserAsync(HttpContext.User);
-            // PGN UKLADANIE
-           /* 
-            string path = "Pgn/" + user.UserName + "/" + pgn.FileName;
-
-            string dir = "Pgn/" + user.UserName;
-
-            if (pgn == null)
-                ModelState.AddModelError(nameof(game.Pgn), "Please select pgn file");
-            else
-            {
-                game.Pgn = "~/" + path;
-                game.user = user;
-                Directory.CreateDirectory(Path.Combine(hostingEnvironment.WebRootPath, dir));
-            }
-
-                using (var stream = new System.IO.FileStream(Path.Combine(hostingEnvironment.WebRootPath, path), FileMode.Create))
-                {
-                    await pgn.CopyToAsync(stream);
-                }
-           */
-                _context.Update(game);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(MyGames));
-
+            _context.Update(game);
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(MyGames));
+
         }
 
 
@@ -190,7 +202,7 @@ namespace Fajn.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!JokeExists(game.GameId))
+                    if (!GameExists(game.GameId))
                     {
                         return NotFound();
                     }
@@ -215,7 +227,7 @@ namespace Fajn.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool JokeExists(int id)
+        private bool GameExists(int id)
         {
             return _context.Games.Any(e => e.GameId == id);
         }

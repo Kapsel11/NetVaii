@@ -5,28 +5,19 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using Fajn.Models;
 
-namespace Fajn.Models
+namespace Fajn.ViewModels
 {
-    public class Game
+    public class GameCreateGameViewModel
     {
-        [Key]
-        public int GameId { get; set; }
-        [Required]
         public string White { get; set; }
-        [Required]
         public string Black { get; set; }
-        [Required]
         public string Result { get; set; }
         public string Date { get; set; }
-        public int? EventId { get; set; }
-        [ForeignKey("EventId")]
-        public Event Event { get; set; }
         public string Pgn { get; set; }
-        public IdentityUser user { get; set; }
-        public Game()
-        {
+        public int EventId { get; set; }
+        public IEnumerable<Event> Events { get; set; }
 
-        }
     }
 }

@@ -1,5 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Threading.Tasks;
 namespace Fajn.Models
 {
     public class AllGames
@@ -13,7 +17,9 @@ namespace Fajn.Models
         [Required]
         public string Result { get; set; }
         public string Date { get; set; }
-        public string Event { get; set; }
+        public int? EventId { get; set; }
+        [ForeignKey("EventId")]
+        public Event Event { get; set; }
         [Required]
         public string Pgn { get; set; }
 
