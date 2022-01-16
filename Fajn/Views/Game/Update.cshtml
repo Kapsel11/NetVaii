@@ -1,7 +1,35 @@
-﻿@model Fajn.Models.Game
+﻿@model Fajn.ViewModels.GameUpdateViewModel
+
+<script type="text/javascript">
+ 
+   function submitStudent() {
+        
+        var data = { };
+        data["White"] = $("#White").val(); 
+        data["Black"] = $("#Black").val();
+        data["Result"] = $("#Result").val();
+        data["Date"] = $("#Date").val();
+        data["Pgn"] = $("#Pgn").val();
+        data["EventId"] = $("#EventId").val();
+        data["id"] = @Model.id;
+        $.ajax({
+            url: '@Url.Action("Apdejt", "Game")',
+            data: data,
+            type: "POST",
+            dataType: 'TEXT',
+            success: function(data) {
+                alert("Game was succesfully edited!");
+            },
+            error: function(passParams) {
+                alert("You need to pass all parameters");
+            }
+        });
+
+    } 
+
+</script>
 
 <h4>Add Game</h4>
-<p>User added chess games to our database will be added but tagged as user-created with lower search priority.</p>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -27,10 +55,11 @@
                 <input asp-for="Date" class="form-control" />
                 <span asp-validation-for="Date" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Event" class="control-label"></label>
-                <input asp-for="Event" class="form-control" />
-                <span asp-validation-for="Event" class="text-danger"></span>
+           <div class="form-group">
+                 <label asp-for="Events" class="control-label">Event</label>
+                 <select id="EventId" class="form-control" asp-for="EventId" asp-items="@(new SelectList(Model.Events, "EventId", "EventName" ))">  
+                    <option value="">--Select--</option>  
+                </select>  
             </div>
              <div class="form-group no-border">
                 <label asp-for="Pgn" class="control-label">Your chess file (.pgn)</label>
@@ -38,10 +67,10 @@
                 <span asp-validation-for="Pgn" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
-                <input type="submit" value="Update" class="btn btn-primary wid" />
+           <div class="form-group">
+                <button type="button" class="btn btn-primary wid" onclick="submitStudent()">Submit</button>
             </div>
-                        <input hidden asp-for=GameId/>
+
             </form>
     </div>
 </div>

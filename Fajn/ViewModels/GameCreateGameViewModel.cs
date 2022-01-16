@@ -11,8 +11,11 @@ namespace Fajn.ViewModels
 {
     public class GameCreateGameViewModel
     {
+        [Required]
         public string White { get; set; }
+        [Required]
         public string Black { get; set; }
+        [Required]
         public string Result { get; set; }
         public string Date { get; set; }
         public string Pgn { get; set; }

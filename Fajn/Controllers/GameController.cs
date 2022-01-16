@@ -45,63 +45,33 @@ namespace Fajn.Controllers
             GameCreateGameViewModel model = new GameCreateGameViewModel();
             model.Events = await _context.Event.ToListAsync();
             return View(model);
-
-        }
-
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var joke = await _context.Games
-                .FirstOrDefaultAsync(m => m.GameId == id);
-            if (joke == null)
-            {
-                return NotFound();
-            }
-
-            return View(joke);
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<IActionResult> Create(GameCreateGameViewModel game, IFormFile pgn)
+        public async Task<IActionResult> Fejk(string White, string Black, string Result, string Date, int EventId, string Pgn)
         {
             Game nova = new Game();
             var user = await _userManager.GetUserAsync(HttpContext.User);
-            string path = "Pgn/" + user.UserName + "/" + pgn.FileName;
 
-            string dir = "Pgn/" + user.UserName;
+            nova.Pgn = Pgn;
+            nova.user = user;
+            nova.Date = Date;
+            nova.White = White;
+            nova.Black = Black;
+            nova.EventId = EventId;
+            nova.Result = Result;
 
-            if (pgn == null)
-                ModelState.AddModelError(nameof(game.Pgn), "Please select pgn file");
-            else
+            if (ModelState.IsValid)
             {
-                nova.Pgn = "~/" + path;
-                nova.user = user;
-                nova.Date = game.Date;
-                nova.White = game.White;
-                nova.Black = game.Black;
-                nova.EventId = game.EventId;
-                nova.Result = game.Result;
-                Directory.CreateDirectory(Path.Combine(hostingEnvironment.WebRootPath, dir));
+                _context.Add(nova);
             }
 
-                using (var stream = new System.IO.FileStream(Path.Combine(hostingEnvironment.WebRootPath, path), FileMode.Create))
-                {
-                    await pgn.CopyToAsync(stream);
-                }
-                _context.Add(nova);
-                await _context.SaveChangesAsync();
-               return RedirectToAction(nameof(MyGames));
-
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(MyGames));
+
         }
-
-
+       
         [Authorize]
         public async Task<IActionResult> MyGames()
         {
@@ -136,11 +106,25 @@ namespace Fajn.Controllers
 
         }
 
-        public async Task<IActionResult> Update(int? id)
+       public async Task<IActionResult> Update(int? id)
         {
+            GameUpdateViewModel model = new GameUpdateViewModel();
+            model.Events = await _context.Event.ToListAsync();
             Game f = _context.Games.Find(id);
-            return View(f);
+            if (f != null)
+            {
+                model.White = f.White;
+                model.Black = f.Black;
+                model.Date = f.Date;
+                model.Result = f.Result;
+                model.Pgn = f.Pgn;
+                if(f.EventId != null)
+                model.EventId = (int)f.EventId;
+                model.id = (int) id;
+            }
+            return View(model);
         }
+       
 
         public async Task<IActionResult> Delete(int? id) 
         {
@@ -151,23 +135,34 @@ namespace Fajn.Controllers
             return RedirectToAction(nameof(MyGames));
         }
 
-       [Authorize]
-       [HttpPost]
-        public async Task<IActionResult> Update(Game game, IFormFile pgn, int id)
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Apdejt(string White, string Black, string Result, string Date, int EventId, string Pgn, int id)
         {
-            Game pom = _context.Games.Find(id);
-            _context.Entry(pom).State = EntityState.Deleted;
-            game.GameId = pom.GameId;
-            game.Pgn = pom.Pgn;
-            _context.Remove(pom);
+            if(ModelState.IsValid)
+            {
+                var user = await _userManager.GetUserAsync(HttpContext.User);
+                Game pom = _context.Games.Find(id);
+                _context.Entry(pom).State = EntityState.Deleted;
+                Game game = new Game();
 
-            var user = await _userManager.GetUserAsync(HttpContext.User);
-            _context.Update(game);
-            await _context.SaveChangesAsync();
+                game.Pgn = Pgn;
+                game.user = user;
+                game.Date = Date;
+                game.White = White;
+                game.Black = Black;
+                game.EventId = EventId;
+                game.Result = Result;
+                game.GameId = pom.GameId;
+                _context.Remove(pom);
+
+                _context.Update(game);
+                await _context.SaveChangesAsync();
+            }
+            
             return RedirectToAction(nameof(MyGames));
 
         }
-
 
         public async Task<IActionResult> Edit(int? id)
         {

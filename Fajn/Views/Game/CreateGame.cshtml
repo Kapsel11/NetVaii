@@ -1,10 +1,38 @@
 ﻿@model Fajn.ViewModels.GameCreateGameViewModel
 
+<script type="text/javascript">
+    
+   function submitStudent() {
+        
+        var data = { };
+        data["White"] = $("#White").val(); 
+        data["Black"] = $("#Black").val();
+        data["Result"] = $("#Result").val();
+        data["Date"] = $("#Date").val();
+        data["Pgn"] = $("#Pgn").val();
+        data["EventId"] = $("#EventId").val();
+        $.ajax({
+            url: '@Url.Action("Fejk", "Game")',
+            data: data,
+            type: "POST",
+            dataType: 'TEXT',
+            success: function(data) {
+                alert("Game was succesfully added!");
+            },
+            error: function(passParams) {
+                alert("You need to pass all parameters");
+            }
+        });
+
+    } 
+
+</script>
+
 <h4>Add Game</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create" enctype="multipart/form-data">
+        <form id="studenteForm" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="White" class="control-label"></label>
@@ -28,10 +56,10 @@
             </div>
             <div class="form-group">
                  <label asp-for="Events" class="control-label">Event</label>
-                 <select id="drpEmpList" class="form-control" asp-for="EventId" asp-items="@(new SelectList(Model.Events, "EventId", "EventName" ))">  
+                 <select id="EventId" class="form-control" asp-for="EventId" asp-items="@(new SelectList(Model.Events, "EventId", "EventName" ))">  
                     <option value="">--Select--</option>  
                 </select>  
-                <input type="hidden" asp-for="EventId" />  
+                
             </div>
              <div class="form-group no-border">
                 <label asp-for="Pgn" class="control-label">Your chess file (.pgn)</label>
@@ -40,12 +68,16 @@
             </div>
 
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary wid" />
+                <button type="button" class="btn btn-primary wid" onclick="submitStudent()">Submit</button>
             </div>
             </form>
     </div>
 </div>
             <hr />
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+        
+
+
+@section Scripts{
+
 }
