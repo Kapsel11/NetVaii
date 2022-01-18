@@ -54,7 +54,8 @@ namespace Fajn.Controllers
             Game nova = new Game();
             var user = await _userManager.GetUserAsync(HttpContext.User);
 
-            nova.Pgn = Pgn;
+            nova.Pgn = Pgn.Replace("\\", "");
+            nova.Pgn.Replace(" ", "");
             nova.user = user;
             nova.Date = Date;
             nova.White = White;
@@ -146,7 +147,8 @@ namespace Fajn.Controllers
                 _context.Entry(pom).State = EntityState.Deleted;
                 Game game = new Game();
 
-                game.Pgn = Pgn;
+                game.Pgn = Pgn.Replace("\\", "");
+                game.Pgn.Replace(" ", "");
                 game.user = user;
                 game.Date = Date;
                 game.White = White;

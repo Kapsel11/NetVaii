@@ -1,7 +1,10 @@
 ﻿@using Fajn.ViewModels
 @model IEnumerable<AllGamesFindViewModel>
 
-<body>
+@{
+    ViewData["Title"] = "My Games";
+}
+
     <h4>My Games</h4>
     <table class="table">
         <thead>
@@ -35,4 +38,3 @@
         </tbody>
        
     </table>
-</body>
