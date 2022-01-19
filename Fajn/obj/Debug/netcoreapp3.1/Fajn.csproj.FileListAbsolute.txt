@@ -337,3 +337,8 @@ C:\Users\thedj\Source\Repos\Kapsel11\NetVaii\Fajn\bin\Debug\netcoreapp3.1\System
 C:\Users\thedj\Source\Repos\Kapsel11\NetVaii\Fajn\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
 C:\Users\thedj\Source\Repos\Kapsel11\NetVaii\Fajn\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
 C:\Users\thedj\Source\Repos\Kapsel11\NetVaii\Fajn\obj\Debug\netcoreapp3.1\Razor\Views\AllGames\Find.cshtml.g.cs
+C:\Users\thedj\Source\Repos\Kapsel11\NetVaii\Fajn\obj\Debug\netcoreapp3.1\Razor\Views\Event\Index.cshtml.g.cs
+C:\Users\thedj\source\repos\Kapsel11\NetVaii\Fajn\obj\Debug\netcoreapp3.1\Razor\Views\Player\Index.cshtml.g.cs
+C:\Users\thedj\source\repos\Kapsel11\NetVaii\Fajn\obj\Debug\netcoreapp3.1\Razor\Views\Player\AddPlayer.cshtml.g.cs
+C:\Users\thedj\source\repos\Kapsel11\NetVaii\Fajn\obj\Debug\netcoreapp3.1\Razor\Views\Player\Update.cshtml.g.cs
+C:\Users\thedj\source\repos\Kapsel11\NetVaii\Fajn\obj\Debug\netcoreapp3.1\Razor\Views\Event\AddEvent.cshtml.g.cs

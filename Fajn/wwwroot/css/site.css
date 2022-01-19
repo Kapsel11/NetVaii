@@ -4,7 +4,6 @@
   word-break: break-all;
 }
 
-
 a {
     color: #007bff;
 }
@@ -111,6 +110,9 @@ i {
     width: 350px;
 }
 
+.button-color {
+    color: #212529;
+}
 
 #Slider {
     opacity: 1.0; 
