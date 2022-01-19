@@ -5,8 +5,7 @@
 }
 <script>
     
-   function submitStudent() {
-        
+   function submitGame() {
         var data = { };
         data["White"] = $("#White").val(); 
         data["Black"] = $("#Black").val();
@@ -15,7 +14,7 @@
         data["Pgn"] = $("#Pgn").val();
         data["EventId"] = $("#EventId").val();
         $.ajax({
-            url: '@Url.Action("Fejk", "Game")',
+            url: '@Url.Action("Add", "AllGames")',
             data: data,
             type: "POST",
             dataType: 'TEXT',
@@ -31,7 +30,7 @@
 
 </script>
 
-<h4>Add Game to your Custom Collection</h4>
+<h4>Add Game to Global Database</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -61,21 +60,17 @@
                  <label asp-for="EventId" class="control-label">Event</label>
                  <select class="form-control" asp-for="EventId" asp-items="@(new SelectList(Model.Events, "EventId", "EventName" ))">
                     <option >--Select--</option>  
-                </select>  
-                
+                </select>   
             </div>
              <div class="form-group no-border">
                 <label asp-for="Pgn" class="control-label">Your chess file (.pgn)</label>
                 <input type="file" asp-for="Pgn" class="form-control no-border" accept=".pgn" required/>
                 <span asp-validation-for="Pgn" class="text-danger"></span>
             </div>
-
             <div class="form-group">
-                <button type="button" class="btn btn-primary wid" onclick="submitStudent()">Submit</button>
+                <button type="button" class="btn btn-primary wid" onclick="submitGame()">Submit</button>
             </div>
             </form>
     </div>
 </div>
             <hr />
-
-       

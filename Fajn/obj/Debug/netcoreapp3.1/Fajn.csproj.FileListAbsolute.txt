@@ -342,3 +342,4 @@ C:\Users\thedj\source\repos\Kapsel11\NetVaii\Fajn\obj\Debug\netcoreapp3.1\Razor\
 C:\Users\thedj\source\repos\Kapsel11\NetVaii\Fajn\obj\Debug\netcoreapp3.1\Razor\Views\Player\AddPlayer.cshtml.g.cs
 C:\Users\thedj\source\repos\Kapsel11\NetVaii\Fajn\obj\Debug\netcoreapp3.1\Razor\Views\Player\Update.cshtml.g.cs
 C:\Users\thedj\source\repos\Kapsel11\NetVaii\Fajn\obj\Debug\netcoreapp3.1\Razor\Views\Event\AddEvent.cshtml.g.cs
+C:\Users\thedj\source\repos\Kapsel11\NetVaii\Fajn\obj\Debug\netcoreapp3.1\Razor\Views\AllGames\AddGame.cshtml.g.cs
