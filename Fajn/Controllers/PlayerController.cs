@@ -54,6 +54,8 @@ namespace Fajn.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
+
+        [Authorize]
         public async Task<IActionResult> Update(int? id)
         {
             if(id == null)
@@ -69,6 +71,7 @@ namespace Fajn.Controllers
             return View(f);
         }
 
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Update(Player player,int? id)
@@ -101,21 +104,19 @@ namespace Fajn.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var f = await _context.Player.FirstOrDefaultAsync(m => m.Id == id);
-            if (f == null)
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Delete(int Id)
+        {
+            var gate = await _context.Player.FindAsync(Id);
+            if (gate != null)
             {
-                return NotFound();
+                _context.Player.Remove(gate);
+                await _context.SaveChangesAsync();
             }
-            _context.Player.Remove(f);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            List<Player> f = await _context.Player.ToListAsync();
+            return PartialView("Index", f);
         }
 
         private bool PlayerExists(int id)

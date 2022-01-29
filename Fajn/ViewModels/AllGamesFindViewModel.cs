@@ -11,15 +11,14 @@ namespace Fajn.ViewModels
     public class AllGamesFindViewModel
     {
         public int GameId { get; set; }
-        [Required]
         public string White { get; set; }
-        [Required]
         public string Black { get; set; }
-        [Required]
         public string Result { get; set; }
-        public string EventName { get; set; }
         public string Date { get; set; }
         public string Pgn { get; set; }
+        public string EventName { get; set; }
+        public string GameTypeName { get; set; }
+
 
     }
 

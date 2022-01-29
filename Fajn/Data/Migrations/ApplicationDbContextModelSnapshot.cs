@@ -62,8 +62,14 @@ namespace Fajn.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("EndingDate")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("EventName")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StartingDate")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("EventId");
@@ -88,6 +94,9 @@ namespace Fajn.Data.Migrations
                     b.Property<int?>("EventId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("GameTypeId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Pgn")
                         .HasColumnType("nvarchar(max)");
 
@@ -106,9 +115,30 @@ namespace Fajn.Data.Migrations
 
                     b.HasIndex("EventId");
 
+                    b.HasIndex("GameTypeId");
+
                     b.HasIndex("userId");
 
                     b.ToTable("Games");
+                });
+
+            modelBuilder.Entity("Fajn.Models.GameType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Rules")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("GameType");
                 });
 
             modelBuilder.Entity("Fajn.Models.Player", b =>
@@ -356,6 +386,10 @@ namespace Fajn.Data.Migrations
                     b.HasOne("Fajn.Models.Event", "Event")
                         .WithMany("Games")
                         .HasForeignKey("EventId");
+
+                    b.HasOne("Fajn.Models.GameType", "GameType")
+                        .WithMany("Games")
+                        .HasForeignKey("GameTypeId");
 
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "user")
                         .WithMany()

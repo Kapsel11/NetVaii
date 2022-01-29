@@ -3,39 +3,11 @@
 @{
     ViewData["Title"] = "Add Game";
 }
-<script>
-    
-   function submitStudent() {
-        
-        var data = { };
-        data["White"] = $("#White").val(); 
-        data["Black"] = $("#Black").val();
-        data["Result"] = $("#Result").val();
-        data["Date"] = $("#Date").val();
-        data["Pgn"] = $("#Pgn").val();
-        data["EventId"] = $("#EventId").val();
-        $.ajax({
-            url: '@Url.Action("Fejk", "Game")',
-            data: data,
-            type: "POST",
-            dataType: 'TEXT',
-            success: function(data) {
-                alert("Game was succesfully added!");
-            },
-            error: function(passParams) {
-                alert("You need to pass all parameters");
-            }
-        });
-
-    } 
-
-</script>
-
 <h4>Add Game to your Custom Collection</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form id="studenteForm" enctype="multipart/form-data">
+        <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="White" class="control-label"></label>
@@ -61,8 +33,14 @@
                  <label asp-for="EventId" class="control-label">Event</label>
                  <select class="form-control" asp-for="EventId" asp-items="@(new SelectList(Model.Events, "EventId", "EventName" ))">
                     <option >--Select--</option>  
+                </select>
+            </div>
+            <div class="form-group">
+                 <label asp-for="GameTypeId" class="control-label">Type</label>
+                 <select class="form-control" asp-for="GameTypeId" asp-items="@(new SelectList(Model.GameType, "Id", "Name" ))">
+                    <option >--Select--</option>  
                 </select>  
-                
+
             </div>
              <div class="form-group no-border">
                 <label asp-for="Pgn" class="control-label">Your chess file (.pgn)</label>
@@ -71,11 +49,11 @@
             </div>
 
             <div class="form-group">
-                <button type="button" class="btn btn-primary wid" onclick="submitStudent()">Submit</button>
+                <input type="submit" value="Create" class="btn btn-primary wid"/>
             </div>
             </form>
     </div>
 </div>
-            <hr />
+           
 
        

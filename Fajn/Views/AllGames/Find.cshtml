@@ -25,7 +25,7 @@
            <td>@game.White</td>
            <td>@game.Black</td>
            <td>@game.Result</td>
-           <td>@game.EventName</td>
+           <td> <a asp-controller="Event" asp-action="Index">@game.EventName</a></td>
            <td>@game.Date</td>           
            <td><a href="@game.Pgn" target="_blank">Download</a></td>
           </tr>

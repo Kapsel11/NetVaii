@@ -20,6 +20,8 @@ namespace Fajn.ViewModels
         public string Date { get; set; }
         public string Pgn { get; set; }
         public int EventId { get; set; }
+        public int GameTypeId { get; set; }
+        public IEnumerable<GameType> GameType { get; set; }
         public IEnumerable<Event> Events { get; set; }
 
     }

@@ -18,5 +18,6 @@ namespace Fajn.Data
         public DbSet<AllGames> AllGames { get; set; }
         public DbSet<Event> Event { get; set; }
         public DbSet<Player> Player { get; set; }
+        public DbSet<GameType> GameType { get; set; }
     }
 }

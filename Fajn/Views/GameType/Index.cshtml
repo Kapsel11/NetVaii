@@ -1,0 +1,25 @@
+﻿@model IEnumerable<GameType>
+
+@{
+    ViewData["Title"] = "Game Types";
+}
+
+<h4> Game Types <a class="button-color" asp-area="" asp-controller="GameType" asp-action="AddGameType">  <i class="fas fa-plus-square"></i> </a> </h4>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Type</th>
+            <th scope="col">Rules</th>
+          </tr>
+        </thead>
+        <tbody>
+         @foreach (GameType game in Model)
+         {
+          <tr>
+           <th scope="row">@game.Name</th>
+           <td>@game.Rules</td>     
+          </tr>
+         }
+        </tbody>
+    </table>
+

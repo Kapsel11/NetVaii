@@ -4,12 +4,12 @@
     "\\Fajn",
     "\\Fajn\\Controllers",
     "\\Fajn\\Data",
+    "\\Fajn\\Models",
+    "\\Fajn\\ViewModels",
     "\\Fajn\\Views",
-    "\\Fajn\\Views\\Event",
-    "\\Fajn\\Views\\Game",
-    "\\Fajn\\wwwroot",
-    "\\Fajn\\wwwroot\\css"
+    "\\Fajn\\Views\\AllGames",
+    "\\Fajn\\Views\\Game"
   ],
-  "SelectedNode": "\\Fajn.sln",
+  "SelectedNode": "\\Fajn\\Controllers\\GameController.cs",
   "PreviewInSolutionExplorer": false
 }

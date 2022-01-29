@@ -23,8 +23,7 @@ namespace Fajn.Controllers
     public class EventController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private IWebHostEnvironment hostingEnvironment;
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IWebHostEnvironment hostingEnvironment;
         private readonly UserManager<Microsoft.AspNetCore.Identity.IdentityUser> _userManager;
         public EventController(ApplicationDbContext context, IWebHostEnvironment environment, UserManager<Microsoft.AspNetCore.Identity.IdentityUser> userManager)
         {
@@ -33,7 +32,6 @@ namespace Fajn.Controllers
             _userManager = userManager;
         }
 
-        [Authorize]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Event.ToListAsync());

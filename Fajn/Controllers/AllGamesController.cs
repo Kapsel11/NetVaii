@@ -51,6 +51,7 @@ namespace Fajn.Controllers
             return View(model);
         }
 
+
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> Add(string White, string Black, string Result, string Date, int EventId, string Pgn)
