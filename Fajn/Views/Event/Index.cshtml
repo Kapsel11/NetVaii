@@ -1,0 +1,29 @@
+﻿@model IEnumerable<Event>
+
+@{
+    ViewData["Title"] = "Events";
+}
+
+<h4> Events <a class="button-color" asp-area="" asp-controller="Event" asp-action="AddEvent">  <i class="fas fa-plus-square"></i> </a> </h4>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">EventId</th>
+            <th scope="col">Event Name</th>
+            <th scope="col">Starting Date</th>
+            <th scope="col">Ending Date</th>
+          </tr>
+        </thead>
+        <tbody>
+         @foreach (Event game in Model)
+         {
+          <tr>
+           <th scope="row">@game.EventId</th>
+           <td>@game.EventName</td>   
+           <td>@game.StartingDate</td>    
+           <td>@game.EndingDate</td>    
+          </tr>
+         }
+        </tbody>
+    </table>
+

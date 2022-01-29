@@ -1,10 +1,13 @@
 ﻿@model Fajn.Models.AllGames
 
-<body>
-    <h4>Find a Game</h4>
+@{
+    ViewData["Title"] = "Find Game";
+}
+
+   <h4> Find Game <a class="button-color" asp-area="" asp-controller="AllGames" asp-action="AddGame">  <i class="fas fa-plus-square"></i> </a> </h4>
     <form asp-action="Find" enctype="multipart/form-data" method="POST">
               <div class="input-group rounded search-input">
-                  <input type="text" name="SearchString" class="form-control rounded gee" placeholder="Search for" aria-label="Search"
+                  <input type="text" name="SearchString" id="search-addon" class="form-control rounded gee" placeholder="Search for" aria-label="Search"
                   aria-describedby="search-addon" />
                    <select class="selectpicker" name="Option">
                     <option value="0">Player</option>
@@ -14,10 +17,8 @@
               <div class="input-group-text border-0 btn btn-sm btn-primary ">
                 <input type="submit" value="Find" class="btn btn-primary" />
                </div>
-
            </div>
     </form>
-</body>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

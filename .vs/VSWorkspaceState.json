@@ -4,7 +4,10 @@
     "\\Fajn",
     "\\Fajn\\Controllers",
     "\\Fajn\\Data",
+    "\\Fajn\\Models",
+    "\\Fajn\\ViewModels",
     "\\Fajn\\Views",
+    "\\Fajn\\Views\\AllGames",
     "\\Fajn\\Views\\Game"
   ],
   "SelectedNode": "\\Fajn\\Controllers\\GameController.cs",

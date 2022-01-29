@@ -22,6 +22,9 @@ namespace Fajn.Models
         public int? EventId { get; set; }
         [ForeignKey("EventId")]
         public Event Event { get; set; }
+        public int? GameTypeId { get; set; }
+        [ForeignKey("GameTypeId")]
+        public GameType GameType { get; set; }
         public string Pgn { get; set; }
         public IdentityUser user { get; set; }
         public Game()

@@ -1,6 +1,9 @@
 ﻿@model IEnumerable<Fajn.ViewModels.AllGamesFindViewModel>
 
-<body>
+@{
+    ViewData["Title"] = "Find Game";
+}
+
     <h4>All Games</h4>
     <table class="table">
         <thead>
@@ -22,13 +25,12 @@
            <td>@game.White</td>
            <td>@game.Black</td>
            <td>@game.Result</td>
-           <td>@game.EventName</td>
+           <td> <a asp-controller="Event" asp-action="Index">@game.EventName</a></td>
            <td>@game.Date</td>           
            <td><a href="@game.Pgn" target="_blank">Download</a></td>
           </tr>
          }
         </tbody>
        
-    </table>
-</body>
+</table>
 

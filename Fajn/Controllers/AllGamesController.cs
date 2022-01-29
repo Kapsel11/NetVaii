@@ -1,20 +1,36 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Fajn.Data;
+using Fajn.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
+using Microsoft.Extensions.Hosting.Internal;
+using Fajn.Other;
 using Fajn.ViewModels;
+
 
 namespace Fajn.Controllers
 {
     public class AllGamesController : Controller
     {
         private readonly ApplicationDbContext _context;
-
-        public AllGamesController(ApplicationDbContext context)
+        private IWebHostEnvironment hostingEnvironment;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly UserManager<Microsoft.AspNetCore.Identity.IdentityUser> _userManager;
+        public AllGamesController(ApplicationDbContext context, IWebHostEnvironment environment, UserManager<Microsoft.AspNetCore.Identity.IdentityUser> userManager)
         {
+            hostingEnvironment = environment;
             _context = context;
+            _userManager = userManager;
         }
         public IActionResult Index()
         {
@@ -24,6 +40,39 @@ namespace Fajn.Controllers
         public  IActionResult Search()
         {
             return View();
+        }
+
+
+        [Authorize]
+        public async Task<IActionResult> AddGame()
+        {
+            GameCreateGameViewModel model = new GameCreateGameViewModel();
+            model.Events = await _context.Event.ToListAsync();
+            return View(model);
+        }
+
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Add(string White, string Black, string Result, string Date, int EventId, string Pgn)
+        {
+            AllGames nova = new AllGames();
+
+            nova.Pgn = Pgn.Replace("\\", "");
+            nova.Pgn.Replace(" ", "");
+            nova.Date = Date;
+            nova.White = White;
+            nova.Black = Black;
+            nova.EventId = EventId;
+            nova.Result = Result;
+
+            if (ModelState.IsValid)
+            {
+                _context.Add(nova);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Search));
         }
 
         [HttpPost]
