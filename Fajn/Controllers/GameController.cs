@@ -53,7 +53,7 @@ namespace Fajn.Controllers
             return View();
         }
 
-        
+
         [HttpPost]
         public async Task<IActionResult> Find(string SearchString, int Option)
         {
@@ -119,23 +119,27 @@ namespace Fajn.Controllers
         [Authorize]
         public async Task<IActionResult> Create(GameCreateGameViewModel game, IFormFile Pgn)
         {
-            var user = await _userManager.GetUserAsync(HttpContext.User);
-            Game nova = new Game();
-            string pom = new string(Pgn.Name);
-            pom = pom.Replace("\\", "");
-            pom = pom.Replace(" ", "");
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.GetUserAsync(HttpContext.User);
+                Game nova = new Game();
+                string pom = new string(Pgn.Name);
+                pom = pom.Replace("\\", "");
+                pom = pom.Replace(" ", "");
 
-            nova.Pgn = pom;
-            nova.Date = game.Date;
-            nova.White = game.White;
-            nova.Black = game.Black;
-            nova.EventId = game.EventId;
-            nova.Result = game.Result;
-            nova.GameTypeId = game.GameTypeId;
-            nova.user = user;
-            _context.Add(nova);
+                nova.Pgn = pom;
+                nova.Date = game.Date;
+                nova.White = game.White;
+                nova.Black = game.Black;
+                nova.EventId = game.EventId;
+                nova.Result = game.Result;
+                nova.GameTypeId = game.GameTypeId;
+                nova.user = user;
+                _context.Add(nova);
 
-            await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
+            }
+           
             return RedirectToAction(nameof(MyGames));
         }
 
@@ -165,79 +169,10 @@ namespace Fajn.Controllers
             return RedirectToAction(nameof(MyGames));
 
         }
-       
+
         [Authorize]
         public async Task<IActionResult> MyGames()
         {
-            var games = from g in _context.Games select g;
-            var user = await _userManager.GetUserAsync(HttpContext.User);
-            games = games.Where(s => s.user.Equals(user));
-
-             var events = await _context.Event.ToListAsync();
-             var gameTypes = await _context.GameType.ToListAsync();
-
-            List<AllGamesFindViewModel> newList = new List<AllGamesFindViewModel>();
-            foreach (var item in games)
-            {
-                string EventName = new string("");
-                if(item.EventId != null)
-                {
-                     EventName = events.Where(s => s.EventId.Equals(item.EventId)).FirstOrDefault().EventName;
-                }
-                string GameTypeName = new string("");
-                if (item.GameTypeId != null)
-                {
-                    GameTypeName = gameTypes.Where(s => s.Id.Equals(item.GameTypeId)).FirstOrDefault().Name;
-                }
-
-                AllGamesFindViewModel listItem = new AllGamesFindViewModel();
-                listItem.GameId = item.GameId;
-                listItem.White = item.White;
-                listItem.Black = item.Black;
-                listItem.Result = item.Result;
-                listItem.EventName = EventName;
-                listItem.GameTypeName = GameTypeName;
-                listItem.Date = item.Date;
-                listItem.Pgn = item.Pgn;
-
-                newList.Add(listItem);
-            }
-
-            return View(newList);
-
-        }
-
-       public async Task<IActionResult> Update(int? id)
-        {
-            GameUpdateViewModel model = new GameUpdateViewModel();
-            model.Events = await _context.Event.ToListAsync();
-            Game f = _context.Games.Find(id);
-            if (f != null)
-            {
-                model.White = f.White;
-                model.Black = f.Black;
-                model.Date = f.Date;
-                model.Result = f.Result;
-                model.Pgn = f.Pgn;
-                if(f.EventId != null)
-                model.EventId = (int)f.EventId;
-                if(f.GameTypeId != null)
-                model.GameTypeId = (int)f.GameTypeId;
-                model.id = (int) id;
-            }
-            return View(model);
-        }
-
-        /*[Authorize]
-        [HttpPost]
-        public async Task<IActionResult> Delete(int GameId)
-        {
-            var gate = await _context.Games.FindAsync(GameId);
-            if(gate != null)
-            {
-                _context.Games.Remove(gate);
-                await _context.SaveChangesAsync();
-            }
             var games = from g in _context.Games select g;
             var user = await _userManager.GetUserAsync(HttpContext.User);
             games = games.Where(s => s.user.Equals(user));
@@ -272,11 +207,77 @@ namespace Fajn.Controllers
                 newList.Add(listItem);
             }
 
+            return View(newList);
+
+        }
+
+        public async Task<IActionResult> Update(int? id)
+        {
+            GameUpdateViewModel model = new GameUpdateViewModel();
+            model.Events = await _context.Event.ToListAsync();
+            Game f = _context.Games.Find(id);
+            if (f != null)
+            {
+                model.White = f.White;
+                model.Black = f.Black;
+                model.Date = f.Date;
+                model.Result = f.Result;
+                model.Pgn = f.Pgn;
+                if (f.EventId != null)
+                    model.EventId = (int)f.EventId;
+                if (f.GameTypeId != null)
+                    model.GameTypeId = (int)f.GameTypeId;
+                model.id = (int)id;
+            }
+            model.Events = await _context.Event.ToListAsync();
+            model.GameType = await _context.GameType.ToListAsync();
+            return View(model);
+        }
+
+        /*[Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Delete(int GameId)
+        {
+            var gate = await _context.Games.FindAsync(GameId);
+            if(gate != null)
+            {
+                _context.Games.Remove(gate);
+                await _context.SaveChangesAsync();
+            }
+            var games = from g in _context.Games select g;
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            games = games.Where(s => s.user.Equals(user));
+            var events = await _context.Event.ToListAsync();
+            var gameTypes = await _context.GameType.ToListAsync();
+            List<AllGamesFindViewModel> newList = new List<AllGamesFindViewModel>();
+            foreach (var item in games)
+            {
+                string EventName = new string("");
+                if (item.EventId != null)
+                {
+                    EventName = events.Where(s => s.EventId.Equals(item.EventId)).FirstOrDefault().EventName;
+                }
+                string GameTypeName = new string("");
+                if (item.GameTypeId != null)
+                {
+                    GameTypeName = gameTypes.Where(s => s.Id.Equals(item.GameTypeId)).FirstOrDefault().Name;
+                }
+                AllGamesFindViewModel listItem = new AllGamesFindViewModel();
+                listItem.GameId = item.GameId;
+                listItem.White = item.White;
+                listItem.Black = item.Black;
+                listItem.Result = item.Result;
+                listItem.EventName = EventName;
+                listItem.GameTypeName = GameTypeName;
+                listItem.Date = item.Date;
+                listItem.Pgn = item.Pgn;
+                newList.Add(listItem);
+            }
             return PartialView("MyGames", newList);
         }*/
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Delete(int GameId) 
+        public async Task<IActionResult> Delete(int GameId)
         //public async Task<IActionResult> Delete(int id)
         {
             var gate = await _context.Games.FindAsync(GameId);
@@ -319,7 +320,7 @@ namespace Fajn.Controllers
                 newList.Add(listItem);
             }
 
-           return PartialView("MyGames", newList);
+            return PartialView("MyGames", newList);
         }
 
         [HttpPost]
@@ -335,9 +336,9 @@ namespace Fajn.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Apdejt(string White, string Black, string Result, string Date, int EventId, string Pgn, int id)
+        public async Task<IActionResult> Apdejt(string White, string Black, string Result, string Date, int EventId, string Pgn, int GameTypeId, int id)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 var user = await _userManager.GetUserAsync(HttpContext.User);
                 Game pom = _context.Games.Find(id);
@@ -353,12 +354,13 @@ namespace Fajn.Controllers
                 game.EventId = EventId;
                 game.Result = Result;
                 game.GameId = pom.GameId;
+                game.GameTypeId = GameTypeId;
                 _context.Remove(pom);
 
                 _context.Update(game);
                 await _context.SaveChangesAsync();
             }
-            
+
             return RedirectToAction(nameof(MyGames));
 
         }

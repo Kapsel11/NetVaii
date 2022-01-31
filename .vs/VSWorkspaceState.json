@@ -8,8 +8,9 @@
     "\\Fajn\\ViewModels",
     "\\Fajn\\Views",
     "\\Fajn\\Views\\AllGames",
+    "\\Fajn\\Views\\Event",
     "\\Fajn\\Views\\Game"
   ],
-  "SelectedNode": "\\Fajn\\Controllers\\GameController.cs",
+  "SelectedNode": "\\Fajn\\Views\\Event\\AddEvent.cshtml",
   "PreviewInSolutionExplorer": false
 }
