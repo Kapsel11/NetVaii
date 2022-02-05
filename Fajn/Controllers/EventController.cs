@@ -44,14 +44,19 @@ namespace Fajn.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> Add(Event f)
+        [HttpPost]
+        public async Task<IActionResult> Add(string EventName, string StartingDate, string EndingDate)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(f);
+                Event pom = new Event();
+                pom.EventName = EventName;
+                pom.StartingDate = DateTime.Parse(StartingDate);
+                pom.EndingDate = DateTime.Parse(EndingDate);
+                _context.Add(pom);
                 await _context.SaveChangesAsync();
             }
-            return RedirectToAction(nameof(Index));
+            return PartialView(nameof(Index));
         }
 
     }

@@ -4,12 +4,127 @@
     ViewData["Title"] = "Add Event";
 }
 
+<script>
+
+function CheckDate()
+{
+   var data = { };
+   data["EventName"] = $("#EventName").val();
+   data["StartingDate"] = $("#StartingDate").val();
+   data["EndingDate"] = $("#EndingDate").val();
+   const Zaciatok = data["StartingDate"].split('-');
+   const Koniec = data["EndingDate"].split('-');
+   var flag = 0;
+
+   while(1)
+   {
+
+    if(Zaciatok[0] < 0 || Koniec[0] < 0)
+    {
+         break;
+    }
+
+    if( (Zaciatok[1] < 1 || Zaciatok[1] > 12) || (Koniec[1] < 1 || Koniec[1] > 12 ) )
+    {
+         break;
+    }
+
+    if(Zaciatok[1] === 2)
+    {
+        if(Zaciatok[2] < 1 || Zaciatok[2] > 29)
+        {
+            break;
+        }
+    }
+
+    else if(Zaciatok[1] === 1 || Zaciatok[1] === 3 || Zaciatok[1] === 5 || Zaciatok[1] === 7 || Zaciatok[1] === 8 || Zaciatok[1] === 10 || Zaciatok[1] === 12)
+    {
+        if(Zaciatok[2] < 1 || Zaciatok[2] > 31)
+        {
+            break;
+        }
+    }
+    else
+    {
+        if(Zaciatok[2] < 1 || Zaciatok[2] > 30)
+        {
+            break;
+        }
+    }
+
+    if(Koniec[1] === 2)
+    {
+        if(Koniec[2] < 1 || Koniec[2] > 29)
+        {
+            break;
+        }
+    }
+
+    else if(Koniec[1] === 1 || Koniec[1] === 3 || Koniec[1] === 5 || Koniec[1] === 7 || Koniec[1] === 8 || Koniec[1] === 10 || Koniec[1] === 12)
+    {
+        if(Koniec[2] < 1 || Koniec[2] > 31)
+        {
+           break;
+        }
+    }
+
+    else
+    {
+        if(Koniec[2] < 1 || Koniec[2] > 30)
+        {
+            break;
+        }
+    }
+       if(Zaciatok[0] > Koniec[0])
+       {
+            break;
+       }    
+       if(Zaciatok[1] > Koniec[1])
+       {
+            break;
+       }
+       if(Zaciatok[2] > Koniec[2])
+       {
+           break;
+       }
+       flag = 1;
+    $.post(
+    {
+      url: '@Url.Action("Add","Event")',
+      data: data,
+      type: "POST",
+      dataType: 'TEXT',
+  });
+    break;
+  }
+  if(flag === 1)
+  {
+      alert("Event bol uspesne pridany");
+  }
+  else{
+      alert("Datum trvania Eventu je v zlom formate!");
+  }
+
+}
+
+function Send(data)
+{
+    $.post(
+      {
+          url: '@Url.Action("Add","Event")',
+          data: data,
+          type: "POST",
+          dataType: 'TEXT',
+      });
+}
+</script>
+
 
 <h4>Add Event</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Add" enctype="multipart/form-data">
+        <form enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="EventName" class="control-label"></label>
@@ -27,7 +142,7 @@
                 <span asp-validation-for="EndingDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                 <button type="submit" class="btn btn-primary wid">Submit</button>
+                 <button type="submit" onclick="CheckDate()" class="btn btn-primary wid">Submit</button>
             </div>
         </form>
     </div>
