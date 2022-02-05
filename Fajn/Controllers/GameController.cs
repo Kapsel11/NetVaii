@@ -111,7 +111,12 @@ namespace Fajn.Controllers
                 newList.Add(listItem);
             }
 
-            return View(newList);
+            // return PartialView("Search",newList);
+            return Json(new
+            {
+                newList
+            });
+
         }
 
         [HttpPost]
@@ -208,7 +213,6 @@ namespace Fajn.Controllers
             }
 
             return View(newList);
-
         }
 
         public async Task<IActionResult> Update(int? id)

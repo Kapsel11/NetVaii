@@ -1,25 +1,125 @@
-﻿@model Fajn.Models.Game
+﻿@using Fajn.ViewModels
+@model IEnumerable<AllGamesFindViewModel>
 
 @{
     ViewData["Title"] = "Find Game";
 }
+<script>
+    var flag = true;
+ function Find(obj) {
+     var e = document.getElementById("Machara");
+     var opsn = e.value;
+     var d = document.getElementById("search-addon");
+     var peep = d.value;
+     var data = { };
+     data["SearchString"] = peep;
+     data["Option"] = opsn;
+$.ajax({
+    url: '@Url.Action("Find", "Game")',
+    type: "POST",
+    dataType: 'TEXT',
+    data: data,
+    success: function (result) {
+        if(!flag)
+        {
+            tableDestroy();
+        }
+        showTable();
+        tableCreate(result);
+        flag = false;
+    },
+    error: function () {
+        alert("Failed to find game");
+    }
+});
+}
+
+function tableDestroy()
+{
+    var el = document.getElementById('iney');
+    el.replaceChildren();
+}
+
+function tableCreate(result) {
+
+    var tbodyRef = document.getElementById('table').getElementsByTagName('tbody')[0];
+    var myObj = result;
+    var gee = JSON.parse(myObj);
+    var pom = gee.newList;
+
+    var bodyy = document.getElementById('iney');
+    var i = 0;
+    for (const x in pom) {
+        let row = bodyy.insertRow();
+        let cell1 = row.insertCell(0);
+        let cell2 = row.insertCell(1);
+        let cell3 = row.insertCell(2);
+        let cell4 = row.insertCell(3);
+        let cell5 = row.insertCell(4);
+        let cell6 = row.insertCell(5);
+        let cell7 = row.insertCell(6);
+        let cell8 = row.insertCell(7);
+
+        var link = document.createElement("a");
+        link.setAttribute("href", gee.newList[i].pgn);
+        var linkText = document.createTextNode("Download");
+        link.appendChild(linkText);
+
+        cell1.innerHTML = gee.newList[i].gameId;
+        cell2.innerHTML = gee.newList[i].white;
+        cell3.innerHTML = gee.newList[i].black;
+        cell4.innerHTML = gee.newList[i].result;
+        cell5.innerHTML = gee.newList[i].eventName;
+        cell6.innerHTML = gee.newList[i].date;
+        cell7.innerHTML = gee.newList[i].gameTypeName;
+        cell8.appendChild(link);
+        i++;
+    }
+}
+
+function showTable(){
+    document.getElementById('table').style.visibility = "visible";
+}
+function hideTable(){
+    document.getElementById('table').style.visibility = "hidden";
+}
+
+
+</script>
 
    <h4> Find Game </h4>
-    <form asp-action="Find" enctype="multipart/form-data" method="POST">
+    <form enctype="multipart/form-data" method="POST">
               <div class="input-group rounded search-input">
                   <input type="text" name="SearchString" id="search-addon" class="form-control rounded gee" placeholder="Search for" aria-label="Search"
                   aria-describedby="search-addon" />
-                   <select class="selectpicker" name="Option">
+                   <select class="selectpicker" name="Option" id="Machara">
                     <option value="0">Player</option>
                     <option value="1">Result</option>
                     <option value="2">Event</option>
                    </select>
-              <div class="input-group-text border-0 btn btn-sm btn-primary ">
-                <input type="submit" value="Find" class="btn btn-primary" />
-               </div>
+               <div class="input-group-text border-0 btn btn-sm btn-primary">
+                <button type="button" class="btn btn-primary" onclick="Find(SearchString)">Find</button>
+            </div>
            </div>
     </form>
 
+     <table class="table inz" id="table">
+        <thead>
+          <tr id="myDIV">
+            <th scope="col">GameID</th>
+            <th scope="col">White</th>
+            <th scope="col">Black</th>
+            <th scope="col">Result</th>
+            <th scope="col">Event</th>
+            <th scope="col">Date</th>
+            <th scope="col">Type</th>
+            <th scope="col">PGN</th>
+          </tr>
+        </thead>
+        <tbody id='iney'>
+        </tbody>
+    </table>
+     
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

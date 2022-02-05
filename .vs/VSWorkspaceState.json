@@ -11,6 +11,6 @@
     "\\Fajn\\Views\\Event",
     "\\Fajn\\Views\\Game"
   ],
-  "SelectedNode": "\\Fajn\\Views\\Event\\AddEvent.cshtml",
+  "SelectedNode": "\\Fajn\\Controllers\\EventController.cs",
   "PreviewInSolutionExplorer": false
 }
